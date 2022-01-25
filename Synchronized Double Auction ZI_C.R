@@ -7,6 +7,8 @@ library(tidyverse)
 library(ggplot2)
 library(gridExtra)
 
+# First Step, intitializing 
+
 rm(list = ls())
 initializiation <- function(){
   transaction <<- c()
@@ -49,6 +51,8 @@ initializiation()
 #volume_bid <<- sample(1:4, size = 1, replace = TRUE)
 #public_fundamental_value <- sample(0:1000, size = 1, replace = TRUE)
 
+# The following is the "Zero-Intelligence Trader" who makes bids by drawing integers from a uniform distribution
+
 ZI_C_Buyer <- function(){
   upper_limit <- 200
   lower_limit <- 1
@@ -66,6 +70,8 @@ ZI_C_Buyer <- function(){
 }
 }
 ZI_C_Buyer() 
+
+# In this Order Book bids get collected
 
 ORDER_BOOK_BID <- function(){
   bid_by_bot <<- c()
@@ -90,6 +96,8 @@ ORDER_BOOK_BID <- function(){
 }
 ORDER_BOOK_BID()
 
+# The following is the "Zero-Intelligence Trader" who makes asks by drawing integers from a uniform distribution
+
 ZI_C_Seller <- function(){
   upper_limit <- 200
   lower_limit <- 1
@@ -102,6 +110,8 @@ ZI_C_Seller <- function(){
   print(q_ask_i)
 }
 ZI_C_Seller() 
+
+# In this Order Book asks get collected
 
 ORDER_BOOK_ASK <- function(){
   ask_by_bot <<- c()
@@ -130,7 +140,7 @@ ORDER_BOOK_ASK <- function(){
 }
 ORDER_BOOK_ASK()
 
-
+# The following is the actual market algorithm where bids and asks get matched
 
 Continous_Double_Auction <- function(){
 initializiation()
@@ -147,13 +157,13 @@ initializiation()
     k <- k + 1
     match <- bid >= ask
     spread <- (bid+ask)/2
-    q_match <- q_bid <= q_ask
+    q_match <- q_bid <= q_ask # this condition matches bids and asks
     
     if(match){
       asks <<- append(asks, ask)
       bids <<- append(bids, bid)
       price <<- spread
-      price_index <<- append(price_index, price)
+      price_index <<- append(price_index, price) # the prices of a trading session get appended
       t <- t + 1
       
       redemption_value_index <<- append(redemption_value_index, redemption_value)
